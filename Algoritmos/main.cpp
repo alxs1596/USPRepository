@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include <sstream>
+#include <iterator>  // std::begin, std::end
 
 using namespace std;
 void cout_vector(vector<int>vector)
@@ -15,69 +16,78 @@ void cout_vector(vector<int>vector)
     }
     cout<<endl;
 }
-
+int min_value(vector<int>vector)
+{
+    int min_ = 999;
+    for (int i=0;i<vector.size();i++)
+    {
+        if(vector[i] < min_)
+            min_ = vector[i];
+    }
+    return min_;
+}
 // Algorithm
 //void match_making(priority_queue<int>bachelor,vector<int>spinster)
-void match_making(vector<int>bachelor,vector<int>spinster,int test_number)
+void match_making(vector<int>bachelor,vector<int>spinster,int case_number)
 {
+    vector<int> single_bachelors;
+    for (int b=0;b<bachelor.size();b++) {
+        int senior_bachelor = bachelor[b];
+        int age_different = 999;
+        int most_similar_spinter = -1;
+        for (int s = 0; s < spinster.size(); s++) {
+            if (abs(senior_bachelor - spinster[s]) < age_different) {
+                age_different = abs(senior_bachelor - spinster[s]);
+                most_similar_spinter = s;
+                //cout << " Age: " << age_different  <<" s: "<<s<<endl;
 
-    int b = 0;
-    int age_difference;
-    priority_queue<int,vector<int>,greater<int> > single_bachelors;
-    while(!bachelor.empty()) {
-
-        age_difference = 999;
-        int best_woman = -1;
-        for (int w=0;w<spinster.size();w++)
-        {
-            if(abs(bachelor[b]-spinster[w]) < age_difference)
-            {
-                age_difference = abs(bachelor[b]-spinster[w]);
-                best_woman = w;
-            }
-            else
+            } else {
+                // We found the most similar age spinster to a bachelor
                 break;
-
+            }
         }
-        if (best_woman == -1)
+        // We check is there are any sinble bachelor
+        if (most_similar_spinter == -1)
         {
-            cout<<"Single: "<<bachelor[b]<<endl;
-            single_bachelors.push(bachelor[b]);
+            //cout << "Single bachelor: " << bachelor[b]<<endl;
+            single_bachelors.push_back(senior_bachelor);
+        } else {
+            //cout << "Couple: " << bachelor[b] << " and " << spinster[most_similar_spinter] << endl;
         }
-
-        else
-            cout<<"Couple: "<<bachelor[b]<<" and "<<spinster[best_woman]<<endl;
-        spinster.erase(remove(spinster.begin(), spinster.end(), spinster[best_woman]), spinster.end());
-        bachelor.pop_back();
-        b++;
+        // We remove the elected spinster
+        spinster.erase(remove(spinster.begin(), spinster.end(), spinster[most_similar_spinter]), spinster.end());
     }
-    // Output
-    if (single_bachelors.size()>0)
-        cout<<"Case "<<test_number<<": "<<single_bachelors.size()<<" "<<single_bachelors.top()<<endl;
-    else
-        cout<<"Case "<<test_number<<": 0"<<endl;
-
+    if (single_bachelors.size() > 0)
+    {
+        int min = min_value(single_bachelors);
+        cout<<"Case "<<case_number<<": "<<single_bachelors.size()<<" "<<min<<endl;
+    } else
+        cout<<"Case "<<case_number<<": "<<single_bachelors.size()<<endl;
 }
 
 int main()
 {
 
-    vector<int> bachelor{ 26,25,2,21,50,22,34,1 };
-    vector<int> spinster{ 35,25,23,24,21,60};
 
+    //vector<int> bachelor{ 26,25,2,21 };
+    //vector<int> spinster{ 35,25,23,24};
+
+    /*
+    vector<int> spinster{ 30 };
+    vector<int> bachelor{ 12,45,1};
 
     sort(bachelor.begin(), bachelor.end(), greater<int>());
     sort(spinster.begin(), spinster.end(), greater<int>());
     match_making(bachelor,spinster,1);
-
+    */
 
     // Input
-    /*
+
     string bs,line;
     vector<int> num_persons;
     vector<int> bachelors;
     vector<int> spinsters;
-    int t = 0;
+    int t = 1;
     while(true)
     {
         getline(cin,bs); // input number of bachelors and spinsters
@@ -99,13 +109,13 @@ int main()
         }
         sort(bachelors.begin(), bachelors.end(), greater<int>());
         sort(spinsters.begin(), spinsters.end(), greater<int>());
-        match_making(bachelors,spinsters,t+1);
+        match_making(bachelors,spinsters,t);
         num_persons = {};
         bachelors = {};
         spinsters = {};
         t ++;
     }
-*/
+
     return 0;
 }
 
