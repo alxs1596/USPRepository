@@ -57,9 +57,14 @@ Invierte la intensidad del pixel
 
 $$ T(z) = 255 - z $$
 
-![alt text](inverted.png "Logo Title Text 1")
+<img src="original.png">
+<img src="inverted.png">
 
 ## Contrast modulation (or adjustment)
 
+Modifica el rango de la imagen (a,b) en un nuevo rango (c,d) donde a,b son el minimo y maximo valor antiguo y c,d el minimo y maximo valor nuevo
 
+$$ T(z) = (z-a)(\frac{d-c}{b-a}) + c $$
 
+<img src="original.png">
+<img src="contrast_modulation.png">
