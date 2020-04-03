@@ -58,7 +58,7 @@ Invierte la intensidad del pixel
 $$ T(z) = 255 - z $$
 
 <img src="original.png">
-<img src="inverted.png">
+<img src="inverted2.png">
 
 ## Contrast modulation (or adjustment)
 
