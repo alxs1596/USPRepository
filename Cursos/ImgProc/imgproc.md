@@ -58,7 +58,7 @@ Invierte la intensidad del pixel
 $$ T(z) = 255 - z $$
 
 <img src="original.png">
-<img src="inverted2.png">
+<img src="inverted.png">
 
 ## Contrast modulation (or adjustment)
 
@@ -68,3 +68,18 @@ $$ T(z) = (z-a)(\frac{d-c}{b-a}) + c $$
 
 <img src="original.png">
 <img src="contrast_modulation.png">
+
+## Logarithmic function
+
+Los pixeles mas oscuros se vuelven mas claros. Se le suma 1 para evitar log(0) 
+
+
+$$ T(z) = c \log{(1 + |z|)} $$
+$$ c = \frac{255}{\log{(1 + R)}} $$
+$$ => T(z) = 255\frac{\log{(1 + |z|)}}{\log{(1 + R)}} $$
+
+<img src="original.png">
+<img src="logarithmic.png">
+
+## Gamma Adjustment
+
